@@ -7,8 +7,33 @@ const errors = document.createElement("div")
 errors.classList.add("errors")
 body.appendChild(errors)
 
-// fetch and display trivia questions
+// get form
 const form = document.querySelector("form")
+
+// add select form difficulty
+const select = document.createElement("select")
+select.setAttribute("id", "difficulty")
+select.setAttribute("name", "difficulty")
+select.setAttribute("value", "")
+
+// add options
+const difficulties = [
+  ["", "--Select Difficulty--"],
+  ["easy", "Easy"],
+  ["medium", "Medium"], 
+  ["hard", "Hard"]
+]
+for (let [val, disp] of difficulties) {
+  const option = document.createElement("option")
+  option.setAttribute("value", val)
+  option.innerText = disp
+  select.appendChild(option)
+}
+
+// add to form
+form.prepend(select)
+
+// fetch and display trivia questions
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
