@@ -190,9 +190,8 @@ form.addEventListener("submit", (e) => {
 function createTriviaCards(questions) {
   
   const fullHTML = questions.map(question => (
-    `<article class="card">
+    `<article class="card ${question.difficulty}">
       <h2>${question.category}</h2>
-      <p>${question.difficulty}</p>
       <p>${question.question}</p>
       <button>Show Answer</button>
       <p class="hidden">${question.correct_answer}</p>
