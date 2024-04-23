@@ -10,11 +10,16 @@ body.appendChild(errors)
 // get form
 const form = document.querySelector("form")
 
+// add user options div
+const questionOptions = document.createElement("div")
+questionOptions.classList.add("questionOptions")
+
 // add select form difficulty
 const select = document.createElement("select")
 select.setAttribute("id", "difficulty")
 select.setAttribute("name", "difficulty")
 select.setAttribute("value", "")
+questionOptions.appendChild(select)
 
 // add options
 const difficulties = [
@@ -23,6 +28,7 @@ const difficulties = [
   ["medium", "Medium"], 
   ["hard", "Hard"]
 ]
+
 for (let [val, disp] of difficulties) {
   const option = document.createElement("option")
   option.setAttribute("value", val)
@@ -31,14 +37,20 @@ for (let [val, disp] of difficulties) {
 }
 
 // add to form
-form.prepend(select)
+form.prepend(questionOptions)
 
 // fetch and display trivia questions
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  fetch("https://opentdb.com/api.php?amount=10")
+  const amount = 10
+  const queryAmount = `amount=${amount}`
+
+  const difficulty = e.target.difficulty.value || "easy";
+  const queryDifficulty = `difficulty=${difficulty}` 
+
+  fetch(`https://opentdb.com/api.php?${queryAmount}&${queryDifficulty}`)
     .then((response) => response.json())
     .then((data) => {
       console.log(data.results);
@@ -58,6 +70,7 @@ function createTriviaCards(questions) {
   const fullHTML = questions.map(question => (
     `<article class="card">
       <h2>${question.category}</h2>
+      <p>${question.difficulty}</p>
       <p>${question.question}</p>
       <button>Show Answer</button>
       <p class="hidden">${question.correct_answer}</p>
